@@ -427,7 +427,7 @@ with tabs[0]:
         # VIZ 3 — VERIFICANDO INDEPENDENCIA CON MUESTRAS
         with viz3:
             st.markdown(
-                "**¿Cómo verificar empíricamente si dos variables son independientes?**  \n"
+                "**¿Cómo verificar si dos variables son independientes usando muestras?**  \n"
                 "Si $X_1 \\perp X_2$, entonces $f_{1,2}(x_1,x_2) = f_1(x_1)\\cdot f_2(x_2)$.  \n"
                 "Visualmente esto significa que la nube de puntos $(x_1, x_2)$ **no debe mostrar "
                 "ninguna estructura o patrón**: los valores de $X_2$ no deben 'organizarse' "
@@ -867,7 +867,7 @@ with tabs[1]:
                     st.markdown(f"$X_{j+1}$: σ = `{sigmas[j]:.2f}`, peso $a_{j+1}$ = `{pesos[j]:.3f}`")
                 st.markdown("---")
                 st.markdown(f"**Var(Y) por fórmula:** `{var_formula:.5f}`")
-                st.markdown(f"**Var(Y) empírica:** `{var_empirica:.5f}`")
+                st.markdown(f"**Var(Y) calculada:** `{var_empirica:.5f}`")
                 if abs(var_formula - var_empirica) / var_formula < 0.05:
                     st.success("✅ Coinciden: la fórmula funciona porque son independientes.")
 
@@ -1163,7 +1163,7 @@ with tabs[2]:
                 pct_pos = float(np.mean(prod > 0))*100
 
                 st.markdown("---")
-                st.markdown(f"**Cov empírica:** `{cov_emp:.3f}`")
+                st.markdown(f"**Cov calculada:** `{cov_emp:.3f}`")
                 st.markdown(f"**% puntos que contribuyen positivamente:** `{pct_pos:.1f}%`")
                 st.markdown(f"**% puntos que contribuyen negativamente:** `{100-pct_pos:.1f}%`")
 
@@ -1228,7 +1228,7 @@ with tabs[2]:
                 s1_vc2  = st.slider("σ₁", 0.3, 2.0, 1.0, 0.1, key="vc2_s1")
                 s2_vc2  = st.slider("σ₂", 0.3, 2.0, 1.0, 0.1, key="vc2_s2")
                 cov_vc2_param = st.slider(
-                    "Cov(X₁,X₂) teórica",
+                    "Cov(X₁,X₂)",
                     float(-s1_vc2*s2_vc2*0.95),
                     float(s1_vc2*s2_vc2*0.95),
                     float(s1_vc2*s2_vc2*0.6),
@@ -1255,7 +1255,7 @@ with tabs[2]:
                 st.markdown("---")
                 st.markdown(f"**Cov (definición):** `{cov_def:.4f}`")
                 st.markdown(f"**Cov (fórmula op.):** `{cov_op:.4f}`")
-                st.markdown(f"**Cov teórica:** `{cov_vc2_param:.4f}`")
+                st.markdown(f"**Cov objetivo:** `{cov_vc2_param:.4f}`")
                 if abs(cov_def - cov_op) < 0.01:
                     st.success("✅ Ambas fórmulas coinciden.")
 
@@ -1530,9 +1530,9 @@ with tabs[3]:
                 cov_emp_vr1 = float(np.cov(x1_vr1, x2_vr1)[0,1])
 
                 st.markdown("---")
-                st.markdown(f"**ρ teórico:** `{rho_vr1:.2f}`")
-                st.markdown(f"**ρ empírico:** `{rho_emp:.3f}`")
-                st.markdown(f"**Cov empírica:** `{cov_emp_vr1:.3f}`")
+                st.markdown(f"**ρ fijado:** `{rho_vr1:.2f}`")
+                st.markdown(f"**ρ calculado:** `{rho_emp:.3f}`")
+                st.markdown(f"**Cov calculada:** `{cov_emp_vr1:.3f}`")
                 st.markdown(f"**σ₁·σ₂:** `{s1_vr1*s2_vr1:.3f}`")
                 st.markdown(f"**Cov / (σ₁·σ₂) = ρ:** `{cov_emp_vr1/(s1_vr1*s2_vr1):.3f}`")
                 st.markdown(
@@ -1609,14 +1609,14 @@ with tabs[3]:
                     rho_lin = float(np.corrcoef(X_vr2, Z_lin)[0,1])
 
                 st.markdown("---")
-                st.markdown(f"**ρ(X, X²) empírico:** `{rho_cuad:.4f}` ≈ 0")
+                st.markdown(f"**ρ(X, X²) = ** `{rho_cuad:.4f}` ≈ 0")
                 st.error(
                     f"Y=X² está completamente determinada por X, "
                     f"pero ρ ≈ {rho_cuad:.3f} ≈ 0.  \n"
                     "**La correlación no detecta la dependencia no lineal.**"
                 )
                 if ver_lineal:
-                    st.markdown(f"**ρ(X, X+ruido) empírico:** `{rho_lin:.4f}`")
+                    st.markdown(f"**ρ(X, X+ruido) =** `{rho_lin:.4f}`")
                     st.success("La relación lineal sí es captada por ρ.")
 
                 st.markdown("---")
@@ -2080,7 +2080,7 @@ with tabs[4]:
             st.latex(r"Y \sim N\!\left(b + a_1\mu_1 + a_2\mu_2,\;\; a_1^2\sigma_1^2 + a_2^2\sigma_2^2 + 2a_1 a_2\,\text{Cov}(X_1,X_2)\right)")
             st.markdown(
                 "Aquí verificamos este teorema numéricamente: generamos muestras de $(X_1,X_2)$, "
-                "calculamos $Y$, y comparamos la distribución empírica con la normal teórica."
+                "calculamos $Y$, y verificamos que su distribución coincide con la predicción del Teorema 4."
             )
             col_vn3a, col_vn3b = st.columns([1,2])
             with col_vn3a:
@@ -2108,10 +2108,10 @@ with tabs[4]:
                 Y_sim = b_vn3 + a1_vn3*smp_vn3[:,0] + a2_vn3*smp_vn3[:,1]
 
                 st.markdown("---")
-                st.markdown(f"**E[Y] teórico:** `{EY:.3f}`")
-                st.markdown(f"**E[Y] empírico:** `{float(np.mean(Y_sim)):.3f}`")
-                st.markdown(f"**σ(Y) teórico:** `{sigY:.3f}`")
-                st.markdown(f"**σ(Y) empírico:** `{float(np.std(Y_sim)):.3f}`")
+                st.markdown(f"**E[Y] (Teorema 4):** `{EY:.3f}`")
+                st.markdown(f"**E[Y] (simulación):** `{float(np.mean(Y_sim)):.3f}`")
+                st.markdown(f"**σ(Y) (Teorema 4):** `{sigY:.3f}`")
+                st.markdown(f"**σ(Y) (simulación):** `{float(np.std(Y_sim)):.3f}`")
                 st.success(f"Y ~ N({EY:.2f}, {VarY:.3f})")
 
             with col_vn3b:
@@ -2121,13 +2121,13 @@ with tabs[4]:
                 fig_vn3 = go.Figure()
                 fig_vn3.add_trace(go.Histogram(
                     x=Y_sim, histnorm='probability density',
-                    name='Distribución empírica de Y',
+                    name='Simulación de Y',
                     marker_color='#2196F3', opacity=0.6,
                     nbinsx=40
                 ))
                 fig_vn3.add_trace(go.Scatter(
                     x=y_grid, y=f_teo, mode='lines',
-                    name=f'N({EY:.2f}, {VarY:.3f}) teórica',
+                    name=f'N({EY:.2f}, {VarY:.3f}) — Teorema 4',
                     line=dict(color='#e63946', width=3)
                 ))
                 fig_vn3.update_layout(
@@ -2144,7 +2144,7 @@ with tabs[4]:
                 st.plotly_chart(fig_vn3, use_container_width=True)
                 st.caption(
                     "Azul: histograma de 3000 simulaciones de Y = b + a₁X₁ + a₂X₂.  "
-                    "Rojo: curva normal teórica con los parámetros calculados por el Teorema 4.  "
+                    "Rojo: curva normal N(E[Y], Var(Y)) con parámetros del Teorema 4.  "
                     "La coincidencia confirma que la combinación lineal de normales es normal."
                 )
 
@@ -2411,120 +2411,127 @@ with tabs[5]:
     # EJERCICIO 2 — INDEPENDENCIA DE VECTORES
     # ══════════════════════════════════════════════════════════════════════
     with ej2:
-        st.markdown("### Ejercicio — Independencia en una cartera de pagarés")
+        st.markdown("### Ejercicio — Independencia de un vector aleatorio")
         st.markdown('<div class="ejemplo-box"><span class="label-ej">Enunciado</span>', unsafe_allow_html=True)
         st.markdown(
-            "En un estudio de una cartera de pagarés emitidos por PYMEs durante un período de estrés, "
-            "se registra para cada pagaré si generó pérdida y cuántos mecanismos de protección estaban activos. "
-            "Se definen:"
+            "En una pequeña empresa de delivery, cada pedido se clasifica según dos variables:  \n"
+            "- $X_1$: si el pedido llegó a tiempo ($X_1=1$) o con retraso ($X_1=0$).  \n"
+            "- $X_2$: la calificación que dejó el cliente: mala ($X_2=0$), regular ($X_2=1$) o buena ($X_2=2$).  \n\n"
+            "Adicionalmente, se define $Y = X_1 + X_2$, que representa un índice de desempeño del pedido.  \n\n"
+            "La función de probabilidad conjunta de $(X_1, X_2)$ es:"
         )
-        st.latex(r"""
-        X_1 = \begin{cases} 0 & \text{si el pagaré no generó pérdida} \\ 1 & \text{si generó pérdida} \end{cases}
-        \qquad
-        X_2 = \begin{cases} 0 & \text{sin coberturas} \\ 1 & \text{con una cobertura activa} \\ 2 & \text{con dos coberturas activas} \end{cases}
-        """)
-        st.markdown("La función de probabilidad conjunta es:")
         st.latex(r"""
         \begin{array}{c|cc|c}
         x_2 \backslash x_1 & 0 & 1 & p_2(x_2) \\ \hline
-        0 & 0.38 & 0.17 & 0.55 \\
-        1 & 0.14 & 0.02 & 0.16 \\
-        2 & 0.24 & 0.05 & 0.29 \\ \hline
-        p_1(x_1) & 0.76 & 0.24 & 1.00
+        0 & 0.20 & 0.10 & 0.30 \\
+        1 & 0.15 & 0.15 & 0.30 \\
+        2 & 0.05 & 0.35 & 0.40 \\ \hline
+        p_1(x_1) & 0.40 & 0.60 & 1.00
         \end{array}
         """)
         st.markdown(
-            "**a)** Calcule las distribuciones marginales de $X_1$ y $X_2$.  \n"
-            "**b)** ¿Son $X_1$ y $X_2$ independientes? En caso de ser dependientes, "
-            "¿la dependencia es completa o parcial? Justifique.  \n"
-            "**c)** Calcule $E[X_1 \\mid X_2 \\geq 1]$ y $E[X_2 \\mid X_1 = 1]$.  \n"
-            "**d)** ¿Es $(X_1, X_2)$ como vector independiente de alguna función $g(X_1, X_2)$? "
-            "Discuta el concepto."
+            "**a)** ¿Son $X_1$ y $X_2$ independientes? Justifique con el criterio de factorización.  \n"
+            "**b)** ¿$X_1$ determina completamente a $X_2$? ¿Y $X_2$ a $X_1$? Discuta.  \n"
+            "**c)** Calcule $E[Y \\mid X_1 = 1]$, es decir, el índice de desempeño esperado dado que el pedido llegó a tiempo.  \n"
+            "**d)** ¿Es $(X_1, X_2)$ como vector independiente de $Y$? Discuta el concepto."
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
         st.markdown("---")
         st.markdown("### Resolución")
 
-        st.markdown('<div class="section-title">Parte a) — Distribuciones marginales</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Parte a) — Criterio de factorización</div>', unsafe_allow_html=True)
         st.markdown(
-            "Las marginales se obtienen sumando filas (para $X_2$) y columnas (para $X_1$). "
-            "Ya están dadas en los totales de la tabla, pero las interpretamos:"
+            "El criterio establece que $X_1 \\perp X_2$ si y solo si "
+            "$p_{1,2}(x_1,x_2) = p_1(x_1)\\cdot p_2(x_2)$ para **todos** los pares $(x_1,x_2)$.  \n\n"
+            "Las marginales ya están en la tabla: $p_1(0)=0.40$, $p_1(1)=0.60$, "
+            "$p_2(0)=0.30$, $p_2(1)=0.30$, $p_2(2)=0.40$.  \n\n"
+            "Verificamos **todas** las celdas:"
         )
-        st.latex(r"p_1(0) = 0.76 \quad \text{(76\% de los pagarés no generan pérdida)}")
-        st.latex(r"p_1(1) = 0.24 \quad \text{(24\% sí generan pérdida)}")
-        st.latex(r"p_2(0) = 0.55, \quad p_2(1) = 0.16, \quad p_2(2) = 0.29")
-
-        st.markdown('<div class="section-title">Parte b) — ¿Son independientes?</div>', unsafe_allow_html=True)
+        datos_fact = {
+            "$(x_1,x_2)$": ["(0,0)","(0,1)","(0,2)","(1,0)","(1,1)","(1,2)"],
+            "$p_{1,2}(x_1,x_2)$": [0.20,0.15,0.05,0.10,0.15,0.35],
+            "$p_1(x_1)$": [0.40,0.40,0.40,0.60,0.60,0.60],
+            "$p_2(x_2)$": [0.30,0.30,0.40,0.30,0.30,0.40],
+            "$p_1 \\cdot p_2$": [0.12,0.12,0.16,0.18,0.18,0.24],
+            "¿Iguales?": ["❌","❌","❌","❌","✅","❌"]
+        }
+        st.dataframe(pd.DataFrame(datos_fact), use_container_width=True)
         st.markdown(
-            "**Criterio:** $p_{1,2}(x_1,x_2) = p_1(x_1)\\cdot p_2(x_2)$ para todos los valores.  \n"
-            "Verificamos con la celda $(x_1=1, x_2=0)$:"
+            "Basta con encontrar **una** celda donde no se cumpla para concluir dependencia. "
+            "En este caso, **ninguna** celda (salvo $(1,1)$ por coincidencia numérica) cumple la factorización."
         )
-        st.latex(r"p_1(1)\cdot p_2(0) = 0.24 \times 0.55 = 0.132")
-        st.latex(r"p_{1,2}(1,0) = 0.17")
-        st.latex(r"0.132 \neq 0.17 \quad \Rightarrow \quad \text{No son independientes.}")
-
+        st.markdown('<div class="obs-box"><span class="label-obs">Conclusión</span>', unsafe_allow_html=True)
         st.markdown(
-            "**¿Completa o parcial?** Buscamos si $X_1 = g(X_2)$ o $X_2 = h(X_1)$:  \n"
-            "- Cuando $X_1=0$: $X_2$ puede ser $0$, $1$ o $2$ → $X_1$ no determina a $X_2$.  \n"
-            "- Cuando $X_2=0$: $X_1$ puede ser $0$ o $1$ → $X_2$ no determina a $X_1$.  \n"
-            "**La dependencia es parcial** en ambas direcciones."
+            "$X_1$ y $X_2$ **no son independientes**: la tabla no factoriza.  \n"
+            "**Interpretación:** si un pedido llegó a tiempo ($X_1=1$), "
+            "la probabilidad de recibir buena calificación ($X_2=2$) cambia respecto a la marginal — "
+            "saber si llegó a tiempo sí informa sobre la calificación que dejará el cliente."
         )
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        st.markdown('<div class="section-title">Parte c) — Esperanzas condicionales</div>', unsafe_allow_html=True)
-
-        st.markdown("**$E[X_1 \\mid X_2 \\geq 1]$:**  \n"
-            "Primero calculamos $P(X_2 \\geq 1) = p_2(1) + p_2(2) = 0.16 + 0.29 = 0.45$."
-        )
-        st.latex(r"P(X_1=1 \mid X_2\geq 1) = \frac{P(X_1=1,\, X_2\geq 1)}{P(X_2\geq 1)} = \frac{0.02+0.05}{0.45} = \frac{0.07}{0.45} = \frac{7}{45}")
-        st.latex(r"P(X_1=0 \mid X_2\geq 1) = 1 - \frac{7}{45} = \frac{38}{45}")
-        st.latex(r"E[X_1\mid X_2\geq 1] = 0\cdot\frac{38}{45}+1\cdot\frac{7}{45} = \frac{7}{45} \approx 0.156")
+        st.markdown('<div class="section-title">Parte b) — Determinación completa o parcial</div>', unsafe_allow_html=True)
         st.markdown(
-            "> Interpretación: entre los pagarés **con al menos una cobertura activa**, "
-            "la tasa de pérdida es de aproximadamente 15.6%, "
-            "menor que la tasa global del 24%. "
-            "Las coberturas están asociadas a menor pérdida."
-        )
-
-        st.markdown("**$E[X_2 \\mid X_1 = 1]$:**")
-        st.latex(r"p_{2|1}(x_2|X_1=1): \quad p(0|1)=\frac{0.17}{0.24},\; p(1|1)=\frac{0.02}{0.24},\; p(2|1)=\frac{0.05}{0.24}")
-        st.latex(r"E[X_2\mid X_1=1] = 0\cdot\frac{0.17}{0.24}+1\cdot\frac{0.02}{0.24}+2\cdot\frac{0.05}{0.24} = \frac{0+0.02+0.10}{0.24} = \frac{0.12}{0.24} = 0.5")
-        st.markdown(
-            "> Interpretación: los pagarés que **sí generaron pérdida** tenían en promedio "
-            "0.5 coberturas activas — significativamente menos que el promedio general "
-            "($E[X_2] = 0\\cdot0.55+1\\cdot0.16+2\\cdot0.29 = 0.74$). "
-            "Confirma la dependencia: pérdida y cobertura están relacionados."
+            "**¿$X_1$ determina completamente a $X_2$?**  \n"
+            "Cuando $X_1=0$: $X_2$ puede ser $0$, $1$ o $2$ (los tres son posibles).  \n"
+            "No existe una función $g$ tal que $X_2 = g(X_1)$ — $X_1$ **no determina completamente** a $X_2$.  \n\n"
+            "**¿$X_2$ determina completamente a $X_1$?**  \n"
+            "Cuando $X_2=0$: $X_1$ puede ser $0$ o $1$. Tampoco hay función $h$ tal que $X_1=h(X_2)$.  \n\n"
+            "**Conclusión:** la dependencia es **parcial** en ambas direcciones. "
+            "Ninguna variable fija completamente a la otra, pero el conocimiento de una "
+            "sí modifica la distribución de la otra."
         )
 
-        st.markdown('<div class="section-title">Parte d) — Concepto de independencia de vectores</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Parte c) — E[Y | X₁ = 1]</div>', unsafe_allow_html=True)
         st.markdown(
-            "El vector $(X_1, X_2)$ como bloque genera eventos de la forma "
-            "$\\{(X_1,X_2) \\in A\\}$ para conjuntos $A \\subset \\mathbb{R}^2$.  \n\n"
-            "Si consideramos una variable $Y = g(X_1,X_2)$, el vector $(X_1,X_2)$ **siempre** "
-            "determina completamente a $Y$ (porque $Y$ es función de él).  \n"
-            "Por tanto, $(X_1,X_2)$ y $Y = g(X_1,X_2)$ son **siempre dependientes** "
-            "(salvo que $g$ sea constante).  \n\n"
-            "La independencia de vectores es relevante cuando los **bloques** son conceptualmente "
-            "separados: e.g., el vector de retornos de una empresa vs. el vector de retornos de otra empresa."
+            "Recordemos que $Y = X_1 + X_2$. Dado $X_1=1$, tenemos $Y = 1 + X_2$.  \n"
+            "Por linealidad de la esperanza condicional:"
+        )
+        st.latex(r"E[Y \mid X_1=1] = E[X_1 + X_2 \mid X_1=1] = 1 + E[X_2 \mid X_1=1]")
+        st.markdown("Calculamos $E[X_2 \\mid X_1=1]$ usando la distribución condicional:")
+        st.latex(r"p_{2|1}(x_2|X_1=1): \quad p(0|1)=\frac{0.10}{0.60}=\frac{1}{6},\; p(1|1)=\frac{0.15}{0.60}=\frac{1}{4},\; p(2|1)=\frac{0.35}{0.60}=\frac{7}{12}")
+        st.latex(r"E[X_2\mid X_1=1] = 0\cdot\frac{1}{6}+1\cdot\frac{1}{4}+2\cdot\frac{7}{12} = 0+\frac{1}{4}+\frac{14}{12} = \frac{3}{12}+\frac{14}{12} = \frac{17}{12}")
+        st.latex(r"E[Y\mid X_1=1] = 1+\frac{17}{12} = \frac{29}{12} \approx 2.42")
+
+        st.markdown('<div class="obs-box"><span class="label-obs">Interpretación</span>', unsafe_allow_html=True)
+        st.markdown(
+            "Cuando el pedido llega a tiempo ($X_1=1$), el índice de desempeño esperado es $\\approx 2.42$.  \n"
+            "Para comparar, calculemos $E[Y]$ sin información:  \n"
+            "$E[X_1] = 0.60$, $E[X_2] = 0\\cdot0.30+1\\cdot0.30+2\\cdot0.40 = 1.10$.  \n"
+            "$E[Y] = E[X_1]+E[X_2] = 0.60+1.10 = 1.70$.  \n\n"
+            "Saber que el pedido llegó a tiempo eleva el índice esperado de $1.70$ a $2.42$ — "
+            "esto confirma la dependencia: $X_1$ **aporta información** sobre $Y$."
+        )
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        st.markdown('<div class="section-title">Parte d) — Independencia del vector (X₁, X₂) e Y</div>', unsafe_allow_html=True)
+        st.markdown(
+            "El vector $(X_1,X_2)$ y la variable $Y = X_1+X_2$ son **siempre dependientes** "
+            "cuando $Y$ es función no constante de $(X_1,X_2)$.  \n\n"
+            "Esto es porque el vector $(X_1,X_2)$ **determina completamente** a $Y$: "
+            "dado cualquier par $(x_1,x_2)$, el valor $y = x_1+x_2$ queda fijado.  \n\n"
+            "Por tanto, el evento $\\{Y=3\\} = \\{(X_1,X_2)=(1,2)\\}$ está "
+            "**generado por el vector** — no puede ser independiente de él.  \n\n"
+            "La independencia de vectores cobra sentido cuando los bloques son **conceptualmente separados**: "
+            "por ejemplo, el vector de características de un pedido vs. el vector de características "
+            "de otro pedido distinto e independiente."
         )
 
         # Visualización
         st.markdown("---")
-        st.markdown("#### Visualización — Comparación: distribución condicional vs. marginal de X₁")
-        p_x1_dado_x2_0 = [0.38/0.55, 0.17/0.55]
-        p_x1_dado_x2_1 = [0.14/0.16, 0.02/0.16]
-        p_x1_dado_x2_2 = [0.24/0.29, 0.05/0.29]
-        p_x1_marg      = [0.76, 0.24]
+        st.markdown("#### Visualización — Distribución de X₂ según el valor de X₁")
+        p_x2_dado_x1_0 = [0.20/0.40, 0.15/0.40, 0.05/0.40]
+        p_x2_dado_x1_1 = [0.10/0.60, 0.15/0.60, 0.35/0.60]
+        p_x2_marg      = [0.30, 0.30, 0.40]
 
         fig_ej2 = go.Figure()
         for vals, name, col in [
-            (p_x1_marg,      "Marginal X₁", "#e63946"),
-            (p_x1_dado_x2_0, "X₁|X₂=0",    "#2196F3"),
-            (p_x1_dado_x2_1, "X₁|X₂=1",    "#4CAF50"),
-            (p_x1_dado_x2_2, "X₁|X₂=2",    "#FF9800"),
+            (p_x2_marg,      "Marginal X₂ (sin info)", "#e63946"),
+            (p_x2_dado_x1_0, "X₂ | X₁=0 (retraso)",   "#FF9800"),
+            (p_x2_dado_x1_1, "X₂ | X₁=1 (a tiempo)",  "#4CAF50"),
         ]:
             fig_ej2.add_trace(go.Bar(
-                x=["X₁=0 (sin pérdida)", "X₁=1 (con pérdida)"],
+                x=["Mala (X₂=0)", "Regular (X₂=1)", "Buena (X₂=2)"],
                 y=vals, name=name,
                 marker_color=col, opacity=0.85
             ))
@@ -2532,135 +2539,178 @@ with tabs[5]:
             barmode='group', yaxis_title="Probabilidad",
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            font_color='white', height=360,
+            font_color='white', height=380,
             margin=dict(l=0, r=0, t=20, b=0),
             legend=dict(font=dict(color='white'))
         )
         fig_ej2.update_xaxes(gridcolor='#222')
-        fig_ej2.update_yaxes(gridcolor='#222', range=[0,1])
+        fig_ej2.update_yaxes(gridcolor='#222', range=[0,0.7])
         st.plotly_chart(fig_ej2, use_container_width=True)
         st.caption(
-            "Si X₁ y X₂ fueran independientes, todas las barras condicionales serían iguales a la marginal (rojo).  "
-            "Las diferencias visibles confirman la dependencia: las coberturas (X₂) sí afectan "
-            "la probabilidad de pérdida (X₁)."
+            "Rojo: distribución marginal de X₂ sin información sobre X₁.  "
+            "Naranja: distribución de X₂ dado que el pedido llegó con retraso.  "
+            "Verde: distribución de X₂ dado que llegó a tiempo.  "
+            "Si fueran independientes, las tres barras serían idénticas."
         )
 
     # ══════════════════════════════════════════════════════════════════════
-    # EJERCICIO 3 — COVARIANZA
+    # EJERCICIO 3 — COVARIANZA (CONTINUO)
     # ══════════════════════════════════════════════════════════════════════
     with ej3:
-        st.markdown("### Ejercicio — Covarianza en el lanzamiento de un dado")
+        st.markdown("### Ejercicio — Covarianza con densidad conjunta continua")
         st.markdown('<div class="ejemplo-box"><span class="label-ej">Enunciado</span>', unsafe_allow_html=True)
         st.markdown(
-            "Se lanza un dado equilibrado. Se definen las siguientes variables aleatorias:"
+            "Un analista modela conjuntamente la tasa de ocupación $X$ de un hotel "
+            "(en proporción, $0 < x < 1$) y su ingreso diario relativo $Y$ "
+            "(en unidades normalizadas, $0 < y < 2$), "
+            "con la siguiente densidad conjunta:"
         )
-        st.latex(r"""
-        X = \begin{cases} -1 & \text{si aparece un número primo} \\ 1 & \text{si aparece otro número} \end{cases}
-        \qquad
-        Y = \begin{cases} -1 & \text{si aparece un número par} \\ 1 & \text{si aparece un número impar} \end{cases}
-        """)
+        st.latex(r"f(x,y) = \begin{cases} c\,x\,y & 0 < x < 1,\; 0 < y < 2 \\ 0 & \text{en otro caso} \end{cases}")
         st.markdown(
-            "**a)** Calcule $\\text{Cov}(X,Y)$ e interprete.  \n"
-            "**b)** ¿Lo calculado en a) corrobora que $X$ e $Y$ son dependientes? Discuta.  \n"
-            "**c)** ¿Alguna de las variables determina completamente a la otra?  \n"
-            "**d)** Calcule $\\text{Var}(2X+Y)$ usando propiedades."
+            "**a)** Determine la constante $c$ para que $f$ sea densidad.  \n"
+            "**b)** Halle las densidades marginales $f_X(x)$ y $f_Y(y)$.  \n"
+            "**c)** ¿Son $X$ e $Y$ independientes? Justifique.  \n"
+            "**d)** Calcule $\\text{Cov}(X,Y)$ usando la fórmula operacional e interprete.  \n"
+            "**e)** Calcule $\\text{Var}(3X - Y)$."
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
         st.markdown("---")
         st.markdown("### Resolución")
 
-        st.markdown('<div class="section-title">Paso 0 — Identificar los números del dado y los valores de X, Y</div>', unsafe_allow_html=True)
-
+        st.markdown('<div class="section-title">Parte a) — Constante c</div>', unsafe_allow_html=True)
         st.markdown(
-            "Los posibles resultados del dado son $\\{1,2,3,4,5,6\\}$, cada uno con probabilidad $1/6$."
+            "Para que $f$ sea densidad, debe integrar 1 sobre todo su soporte:"
         )
-        datos_dado = {
-            "Resultado": [1,2,3,4,5,6],
-            "¿Primo?": ["Sí","Sí","Sí","No","Sí","No"],
-            "¿Par?": ["No","Sí","No","Sí","No","Sí"],
-            "X": ["-1","-1","-1","1","-1","1"],
-            "Y": ["1","-1","1","-1","1","-1"],
-            "X·Y": ["-1","1","-1","-1","-1","-1"]
-        }
-        st.dataframe(pd.DataFrame(datos_dado), use_container_width=True)
+        st.latex(r"\int_0^1\int_0^2 c\,x\,y\;dy\,dx = 1")
+        st.latex(r"c\int_0^1 x\,dx \cdot \int_0^2 y\,dy = c\cdot\frac{1}{2}\cdot 2 = c = 1")
         st.markdown(
-            "> Los números primos en $\\{1,...,6\\}$ son: $2, 3, 5$ (y discutiblemente $1$, "
-            "pero en la convención estándar del curso $1$ **no** es primo).  \n"
-            "> Primos: $\\{2,3,5\\}$. No primos: $\\{1,4,6\\}$."
+            "> Nótese que la integral factorizó en $\\int_0^1 x\,dx = 1/2$ "
+            "y $\\int_0^2 y\,dy = 2$, cuyo producto es 1. Por tanto $c=1$."
+        )
+        st.markdown('<div class="prop-box"><span class="label-prop">Resultado</span>', unsafe_allow_html=True)
+        st.latex(r"f(x,y) = xy, \quad 0<x<1,\; 0<y<2")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        st.markdown('<div class="section-title">Parte b) — Densidades marginales</div>', unsafe_allow_html=True)
+        st.markdown(
+            "La marginal de $X$ se obtiene integrando $f(x,y)$ sobre todos los valores de $y$:"
+        )
+        st.latex(r"f_X(x) = \int_0^2 xy\;dy = x\cdot\left[\frac{y^2}{2}\right]_0^2 = x\cdot 2 = 2x, \quad 0<x<1")
+        st.markdown("La marginal de $Y$:")
+        st.latex(r"f_Y(y) = \int_0^1 xy\;dx = y\cdot\left[\frac{x^2}{2}\right]_0^1 = \frac{y}{2}, \quad 0<y<2")
+        st.markdown(
+            "> Verificación: $\\int_0^1 2x\,dx = 1$ ✓ y $\\int_0^2 y/2\,dy = 1$ ✓."
         )
 
-        st.markdown('<div class="section-title">Parte a) — Cov(X, Y)</div>', unsafe_allow_html=True)
-        st.markdown("**Usamos la fórmula operacional:** $\\text{Cov}(X,Y) = E[XY] - E[X]\\cdot E[Y]$")
+        st.markdown('<div class="section-title">Parte c) — ¿Son independientes?</div>', unsafe_allow_html=True)
+        st.markdown(
+            "Comprobamos si $f(x,y) = f_X(x)\\cdot f_Y(y)$:"
+        )
+        st.latex(r"f_X(x)\cdot f_Y(y) = 2x\cdot\frac{y}{2} = xy = f(x,y) \quad \checkmark")
+        st.markdown('<div class="prop-box"><span class="label-prop">Conclusión</span>', unsafe_allow_html=True)
+        st.markdown(
+            "**$X$ e $Y$ son independientes.** La densidad conjunta factoriza exactamente "
+            "en el producto de las marginales.  \n\n"
+            "Esto nos anticipará el resultado de la parte d): si son independientes, "
+            "la covarianza debe ser cero."
+        )
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        st.markdown("**Cálculo de $E[X]$:**")
-        st.latex(r"E[X] = (-1)\cdot\frac{3}{6}+(1)\cdot\frac{3}{6} = -\frac{1}{2}+\frac{1}{2} = 0")
-
-        st.markdown("**Cálculo de $E[Y]$:**")
-        st.markdown("Pares: $\\{2,4,6\\}$ → $Y=-1$. Impares: $\\{1,3,5\\}$ → $Y=1$.")
-        st.latex(r"E[Y] = (-1)\cdot\frac{3}{6}+(1)\cdot\frac{3}{6} = 0")
-
-        st.markdown("**Cálculo de $E[XY]$:**  \nDe la tabla: $XY = -1$ en los resultados $\\{1,3,4,5,6\\}$ y $XY=1$ en $\\{2\\}$.")
-
-        with st.expander("📐 Verificación de los valores XY de la tabla"):
-            st.markdown(
-                "- $1$: X=-1 (primo), Y=1 (impar) → XY=-1  \n"
-                "- $2$: X=-1 (primo), Y=-1 (par) → XY=1  \n"
-                "- $3$: X=-1 (primo), Y=1 (impar) → XY=-1  \n"
-                "- $4$: X=1 (no primo), Y=-1 (par) → XY=-1  \n"
-                "- $5$: X=-1 (primo), Y=1 (impar) → XY=-1  \n"
-                "- $6$: X=1 (no primo), Y=-1 (par) → XY=-1"
-            )
-
-        st.latex(r"E[XY] = (-1)\cdot\frac{5}{6}+(1)\cdot\frac{1}{6} = -\frac{5}{6}+\frac{1}{6} = -\frac{4}{6} = -\frac{2}{3}")
-        st.latex(r"\text{Cov}(X,Y) = E[XY]-E[X]\cdot E[Y] = -\frac{2}{3}-0\cdot 0 = -\frac{2}{3}")
+        st.markdown('<div class="section-title">Parte d) — Cov(X, Y)</div>', unsafe_allow_html=True)
+        st.markdown(
+            "Usamos la **fórmula operacional**: $\\text{Cov}(X,Y) = E[XY] - E[X]\\cdot E[Y]$.  \n\n"
+            "**Calculamos $E[X]$:**"
+        )
+        st.latex(r"E[X] = \int_0^1 x\cdot 2x\;dx = 2\int_0^1 x^2\;dx = 2\cdot\frac{1}{3} = \frac{2}{3}")
+        st.markdown("**Calculamos $E[Y]$:**")
+        st.latex(r"E[Y] = \int_0^2 y\cdot\frac{y}{2}\;dy = \frac{1}{2}\int_0^2 y^2\;dy = \frac{1}{2}\cdot\frac{8}{3} = \frac{4}{3}")
+        st.markdown("**Calculamos $E[XY]$:**")
+        st.latex(r"E[XY] = \int_0^1\int_0^2 xy\cdot xy\;dy\,dx = \int_0^1\int_0^2 x^2 y^2\;dy\,dx")
+        st.latex(r"= \int_0^1 x^2\;dx\cdot\int_0^2 y^2\;dy = \frac{1}{3}\cdot\frac{8}{3} = \frac{8}{9}")
+        st.markdown("**Aplicamos la fórmula:**")
+        st.latex(r"\text{Cov}(X,Y) = E[XY] - E[X]\cdot E[Y] = \frac{8}{9} - \frac{2}{3}\cdot\frac{4}{3} = \frac{8}{9} - \frac{8}{9} = 0")
 
         st.markdown('<div class="obs-box"><span class="label-obs">Interpretación</span>', unsafe_allow_html=True)
         st.markdown(
-            "$\\text{Cov}(X,Y) = -2/3 < 0$: $X$ e $Y$ tienden a moverse en **direcciones opuestas**.  \n"
-            "En términos del dado: cuando el resultado es primo ($X=-1$), tiende a ser impar ($Y=1$) "
-            "y viceversa. Cuando no es primo ($X=1$), tiende a ser par ($Y=-1$).  \n"
-            "Esto tiene sentido: los primos impares en el dado son 3 y 5, "
-            "y el único primo par es el 2."
+            "$\\text{Cov}(X,Y) = 0$: el resultado es **consistente** con la parte c).  \n\n"
+            "Recordemos la Propiedad 3: si $X \\perp Y$ entonces $\\text{Cov}(X,Y)=0$.  \n"
+            "Aquí comprobamos esa propiedad directamente con la fórmula operacional.  \n\n"
+            "**En el contexto del problema:** la tasa de ocupación $X$ y el ingreso relativo $Y$ "
+            "no tienen ninguna relación lineal — en promedio, conocer la ocupación no "
+            "predice el ingreso, y viceversa."
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
-        st.markdown('<div class="section-title">Parte b) — ¿La Cov corrobora la dependencia?</div>', unsafe_allow_html=True)
-        st.markdown(
-            "**Sí**, $\\text{Cov}(X,Y) \\neq 0$ **implica directamente dependencia**.  \n\n"
-            "Recordemos: si $X \\perp Y$ entonces $\\text{Cov}=0$. "
-            "Contrapositivo: si $\\text{Cov} \\neq 0$ entonces **no son independientes**.  \n\n"
-            "En este caso $\\text{Cov} = -2/3 \\neq 0$, por tanto $X$ e $Y$ **son dependientes**. ✓  \n\n"
-            "> ⚠️ **Importante:** la implicación solo va en un sentido. "
-            "Si hubiera dado $\\text{Cov}=0$, eso **no** garantizaría independencia."
-        )
-
-        st.markdown('<div class="section-title">Parte c) — ¿Determinación completa?</div>', unsafe_allow_html=True)
-        st.markdown(
-            "Buscamos si existe $g$ tal que $Y = g(X)$:  \n"
-            "- Cuando $X = -1$ (número primo): $Y$ puede ser $-1$ (resultado 2) o $1$ (resultados 3, 5).  \n"
-            "- Cuando $X = 1$ (no primo): $Y$ puede ser $-1$ (resultados 4, 6) o $1$ (resultado 1).  \n\n"
-            "En ambos casos, el valor de $X$ **no determina unívocamente** el valor de $Y$.  \n"
-            "Por tanto, **ninguna determina completamente a la otra** — la dependencia es parcial."
-        )
-
-        st.markdown('<div class="section-title">Parte d) — Var(2X + Y)</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Parte e) — Var(3X - Y)</div>', unsafe_allow_html=True)
         st.markdown("Aplicamos la Propiedad 5 de la covarianza:")
-        st.latex(r"\text{Var}(2X+Y) = 4\,\text{Var}(X) + \text{Var}(Y) + 2\cdot 2\cdot 1\cdot\text{Cov}(X,Y)")
-
-        st.markdown("Calculamos $\\text{Var}(X)$: como $X \\in \\{-1,1\\}$ con $P=1/2$ cada uno y $E[X]=0$:")
-        st.latex(r"\text{Var}(X) = E[X^2]-(E[X])^2 = 1-0 = 1")
-        st.markdown("Igualmente $\\text{Var}(Y) = 1$. Entonces:")
-        st.latex(r"\text{Var}(2X+Y) = 4(1)+1(1)+4\left(-\frac{2}{3}\right) = 4+1-\frac{8}{3} = 5-\frac{8}{3} = \frac{15-8}{3} = \frac{7}{3}")
-
-        st.markdown('<div class="prop-box"><span class="label-prop">Resultado final</span>', unsafe_allow_html=True)
-        st.latex(r"\text{Var}(2X+Y) = \frac{7}{3} \approx 2.33")
+        st.latex(r"\text{Var}(3X-Y) = 9\,\text{Var}(X) + \text{Var}(Y) - 2\cdot 3\cdot 1\cdot\text{Cov}(X,Y)")
         st.markdown(
-            "> Nótese que si $X$ e $Y$ fueran independientes ($\\text{Cov}=0$), "
-            "tendríamos $\\text{Var}(2X+Y)=5$. "
-            "La covarianza negativa **reduce** la varianza de la suma ponderada."
+            "Como $\\text{Cov}(X,Y)=0$, el término cruzado desaparece:  \n"
+            "$\\text{Var}(3X-Y) = 9\\,\\text{Var}(X) + \\text{Var}(Y)$"
+        )
+        st.markdown("**Calculamos $\\text{Var}(X)$:**")
+        st.latex(r"E[X^2] = \int_0^1 x^2\cdot 2x\;dx = 2\int_0^1 x^3\;dx = 2\cdot\frac{1}{4} = \frac{1}{2}")
+        st.latex(r"\text{Var}(X) = E[X^2]-(E[X])^2 = \frac{1}{2}-\left(\frac{2}{3}\right)^2 = \frac{1}{2}-\frac{4}{9} = \frac{9-8}{18} = \frac{1}{18}")
+        st.markdown("**Calculamos $\\text{Var}(Y)$:**")
+        st.latex(r"E[Y^2] = \int_0^2 y^2\cdot\frac{y}{2}\;dy = \frac{1}{2}\int_0^2 y^3\;dy = \frac{1}{2}\cdot 4 = 2")
+        st.latex(r"\text{Var}(Y) = E[Y^2]-(E[Y])^2 = 2-\left(\frac{4}{3}\right)^2 = 2-\frac{16}{9} = \frac{18-16}{9} = \frac{2}{9}")
+        st.markdown("**Resultado final:**")
+        st.latex(r"\text{Var}(3X-Y) = 9\cdot\frac{1}{18}+\frac{2}{9} = \frac{1}{2}+\frac{2}{9} = \frac{9+4}{18} = \frac{13}{18}")
+        st.markdown('<div class="prop-box"><span class="label-prop">Resultado</span>', unsafe_allow_html=True)
+        st.latex(r"\text{Var}(3X-Y) = \frac{13}{18} \approx 0.722")
+        st.markdown(
+            "> Como $X$ e $Y$ son independientes, la varianza de $3X-Y$ es simplemente "
+            "la suma $9\\,\\text{Var}(X)+\\text{Var}(Y)$, sin término cruzado. "
+            "Si hubiera dependencia, habría que añadir $-6\\,\\text{Cov}(X,Y)$."
         )
         st.markdown("</div>", unsafe_allow_html=True)
+
+        # Visualización de las marginales
+        st.markdown("---")
+        st.markdown("#### Visualización — Densidades marginales y densidad conjunta")
+        col_ej3a, col_ej3b = st.columns(2)
+        with col_ej3a:
+            x_plot = np.linspace(0, 1, 200)
+            y_plot = np.linspace(0, 2, 200)
+            fig_mx = go.Figure()
+            fig_mx.add_trace(go.Scatter(
+                x=x_plot, y=2*x_plot, mode='lines',
+                line=dict(color='#2196F3', width=3),
+                fill='tozeroy', fillcolor='rgba(33,150,243,0.2)',
+                name='f_X(x) = 2x'
+            ))
+            fig_mx.update_layout(
+                title="Marginal de X", xaxis_title="x", yaxis_title="f_X(x)",
+                paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                font_color='white', height=280, margin=dict(l=0,r=0,t=40,b=0)
+            )
+            fig_mx.update_xaxes(gridcolor='#222')
+            fig_mx.update_yaxes(gridcolor='#222')
+            st.plotly_chart(fig_mx, use_container_width=True)
+
+        with col_ej3b:
+            fig_my = go.Figure()
+            fig_my.add_trace(go.Scatter(
+                x=y_plot, y=y_plot/2, mode='lines',
+                line=dict(color='#4CAF50', width=3),
+                fill='tozeroy', fillcolor='rgba(76,175,80,0.2)',
+                name='f_Y(y) = y/2'
+            ))
+            fig_my.update_layout(
+                title="Marginal de Y", xaxis_title="y", yaxis_title="f_Y(y)",
+                paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                font_color='white', height=280, margin=dict(l=0,r=0,t=40,b=0)
+            )
+            fig_my.update_xaxes(gridcolor='#222')
+            fig_my.update_yaxes(gridcolor='#222')
+            st.plotly_chart(fig_my, use_container_width=True)
+
+        st.caption(
+            "Ambas densidades marginales son crecientes: valores altos de X e Y son más probables. "
+            "Como la densidad conjunta f(x,y)=xy es exactamente el producto f_X(x)·f_Y(y), "
+            "X e Y son independientes — no hay información mutua entre ambas variables."
+        )
 
     # ══════════════════════════════════════════════════════════════════════
     # EJERCICIO 4 — CORRELACIÓN
@@ -2699,10 +2749,10 @@ with tabs[5]:
 
         st.markdown("**Paso 3 — Calcular $\\rho_{Z,W}$.**")
         st.latex(r"\rho_{Z,W} = \frac{\text{Cov}(Z,W)}{\sigma_Z\cdot\sigma_W} = \frac{bd\,\text{Cov}(X,Y)}{|b|\sigma_X\cdot|d|\sigma_Y}")
-        st.latex(r"= \frac{bd}{|bd|}\cdot\frac{\text{Cov}(X,Y)}{\sigma_X\sigma_Y} = \text{sgn}(bd)\cdot\rho_{X,Y}")
+        st.latex(r"= \frac{bd}{|bd|}\cdot\frac{\text{Cov}(X,Y)}{\sigma_X\sigma_Y} = \frac{bd}{|bd|}\cdot\rho_{X,Y}")
 
         st.markdown("**Paso 4 — Tomar valor absoluto.**")
-        st.latex(r"|\rho_{Z,W}| = |\text{sgn}(bd)|\cdot|\rho_{X,Y}| = 1\cdot|\rho_{X,Y}| = |\rho_{X,Y}| \qquad \blacksquare")
+        st.latex(r"|\rho_{Z,W}| = \left|\frac{bd}{|bd|}\right|\cdot|\rho_{X,Y}| = 1\cdot|\rho_{X,Y}| = |\rho_{X,Y}| \qquad \blacksquare")
 
         st.markdown('<div class="prop-box"><span class="label-prop">Conclusión de la demostración</span>', unsafe_allow_html=True)
         st.markdown(
@@ -2715,10 +2765,10 @@ with tabs[5]:
 
         st.markdown('<div class="section-title">Parte b) — ¿Cuándo ρ(Z,W) = ρ(X,Y) exactamente?</div>', unsafe_allow_html=True)
         st.markdown(
-            "De la derivación: $\\rho_{Z,W} = \\text{sgn}(bd)\\cdot\\rho_{X,Y}$.  \n"
+            "De la derivación: $\\rho_{Z,W} = \\frac{bd}{|bd|}\\cdot\\rho_{X,Y}$.  \n"
             "Para que $\\rho_{Z,W} = \\rho_{X,Y}$ (igualdad exacta, no solo en valor absoluto):  \n"
         )
-        st.latex(r"\text{sgn}(bd) = 1 \;\Longleftrightarrow\; bd > 0")
+        st.latex(r"\frac{bd}{|bd|} = 1 \;\Longleftrightarrow\; bd > 0")
         st.markdown(
             "Es decir, cuando $b$ y $d$ tienen el **mismo signo**: "
             "ambas transformaciones van en la misma dirección (ambas crecientes o ambas decrecientes).  \n"
@@ -2730,7 +2780,7 @@ with tabs[5]:
             "Datos: $\\rho_{T,P} = 0.65$, $F = 32 + 1.8T$, por lo que $b = 1.8 > 0$ y $d = 1$ (P no cambia).  \n"
             "Como $b = 1.8 > 0$ y $d = 1 > 0$, tenemos $bd = 1.8 > 0$."
         )
-        st.latex(r"\rho_{F,P} = \text{sgn}(1.8\cdot 1)\cdot\rho_{T,P} = (+1)\cdot 0.65 = 0.65")
+        st.latex(r"\rho_{F,P} = \frac{(1.8)(1)}{|(1.8)(1)|}\cdot\rho_{T,P} = (+1)\cdot 0.65 = 0.65")
 
         st.markdown('<div class="obs-box"><span class="label-obs">Interpretación</span>', unsafe_allow_html=True)
         st.markdown(
@@ -2756,7 +2806,8 @@ with tabs[5]:
             else:
                 rho_zw = np.sign(b_e4*d_e4)*rho_base_e4
                 st.markdown("---")
-                st.markdown(f"**sgn(bd):** `{int(np.sign(b_e4*d_e4)):+d}`")
+                bd_sign = "positivo (+1)" if b_e4*d_e4 > 0 else "negativo (−1)"
+                st.markdown(f"**bd = {b_e4:.1f}×{d_e4:.1f} = {b_e4*d_e4:.2f} → {bd_sign}**")
                 st.markdown(f"**ρ(Z,W):** `{rho_zw:.3f}`")
                 st.markdown(f"**|ρ(Z,W)|:** `{abs(rho_zw):.3f}`")
                 st.markdown(f"**|ρ(X,Y)|:** `{abs(rho_base_e4):.3f}`")
