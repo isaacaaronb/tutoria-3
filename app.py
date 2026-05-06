@@ -2568,7 +2568,7 @@ with tabs[5]:
             "($0 < y < 2$, donde valores altos indican buen historial), "
             "con la siguiente densidad conjunta:"
         )
-        st.latex(r"f(x,y) = \begin{cases} c\,x\,y & 0 < x < 1,\; 0 < y < 2 \\ 0 & \text{en otro caso} \end{cases}")
+        st.latex(r"f(x,y) = \begin{cases} x\,y & 0 < x < 1,\; 0 < y < 2 \\ 0 & \text{en otro caso} \end{cases}")
         st.markdown(
             "**a)** Halle las densidades marginales $f_X(x)$ y $f_Y(y)$.  \n"
             "**b)** ¿Son $X$ e $Y$ independientes? Justifique.  \n"
