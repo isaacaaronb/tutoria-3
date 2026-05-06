@@ -2570,12 +2570,10 @@ with tabs[5]:
         )
         st.latex(r"f(x,y) = \begin{cases} c\,x\,y & 0 < x < 1,\; 0 < y < 2 \\ 0 & \text{en otro caso} \end{cases}")
         st.markdown(
-            "Se puede verificar que $c=1$, por lo que la densidad conjunta es "
-            "$f(x,y) = xy$, con $0<x<1$ y $0<y<2$.  \\n\\n"
-            "**a)** Halle las densidades marginales $f_X(x)$ y $f_Y(y)$.  \\n"
-            "**b)** ¿Son $X$ e $Y$ independientes? Justifique.  \\n"
+            "**a)** Halle las densidades marginales $f_X(x)$ y $f_Y(y)$.  \n"
+            "**b)** ¿Son $X$ e $Y$ independientes? Justifique.  \n"
             "**c)** Calcule $\\text{Cov}(X,Y)$ usando la fórmula operacional e interprete "
-            "en el contexto del scoring.  \\n"
+            "en el contexto del scoring.  \n"
             "**d)** Calcule $\\text{Var}(3X - Y)$, donde $3X-Y$ puede interpretarse como "
             "un índice de riesgo ajustado."
         )
