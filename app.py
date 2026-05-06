@@ -2411,13 +2411,13 @@ with tabs[5]:
     # EJERCICIO 2 — INDEPENDENCIA DE VECTORES
     # ══════════════════════════════════════════════════════════════════════
     with ej2:
-        st.markdown("### Ejercicio — Independencia de un vector aleatorio")
+        st.markdown("### Ejercicio — Independencia en clasificación de emisores corporativos")
         st.markdown('<div class="ejemplo-box"><span class="label-ej">Enunciado</span>', unsafe_allow_html=True)
         st.markdown(
-            "En una pequeña empresa de delivery, cada pedido se clasifica según dos variables:  \n"
-            "- $X_1$: si el pedido llegó a tiempo ($X_1=1$) o con retraso ($X_1=0$).  \n"
-            "- $X_2$: la calificación que dejó el cliente: mala ($X_2=0$), regular ($X_2=1$) o buena ($X_2=2$).  \n\n"
-            "Adicionalmente, se define $Y = X_1 + X_2$, que representa un índice de desempeño del pedido.  \n\n"
+            "Una agencia de clasificación de riesgo evalúa emisores de deuda corporativa según dos variables:  \n"
+            "- $X_1$: si el emisor honró sus obligaciones en el último período ($X_1=1$: sin incumplimiento) o no ($X_1=0$: incumplimiento).  \n"
+            "- $X_2$: calidad del gobierno corporativo: deficiente ($X_2=0$), aceptable ($X_2=1$) o sólido ($X_2=2$).  \n\n"
+            "Se define $Y = X_1 + X_2$ como un **índice de salud financiera** del emisor.  \n\n"
             "La función de probabilidad conjunta de $(X_1, X_2)$ es:"
         )
         st.latex(r"""
@@ -2432,7 +2432,7 @@ with tabs[5]:
         st.markdown(
             "**a)** ¿Son $X_1$ y $X_2$ independientes? Justifique con el criterio de factorización.  \n"
             "**b)** ¿$X_1$ determina completamente a $X_2$? ¿Y $X_2$ a $X_1$? Discuta.  \n"
-            "**c)** Calcule $E[Y \\mid X_1 = 1]$, es decir, el índice de desempeño esperado dado que el pedido llegó a tiempo.  \n"
+            "**c)** Calcule $E[Y \\mid X_1 = 1]$, es decir, el índice de salud financiera esperado dado que el emisor no incurrió en incumplimiento.  \n"
             "**d)** ¿Es $(X_1, X_2)$ como vector independiente de $Y$? Discuta el concepto."
         )
         st.markdown("</div>", unsafe_allow_html=True)
@@ -2464,9 +2464,9 @@ with tabs[5]:
         st.markdown('<div class="obs-box"><span class="label-obs">Conclusión</span>', unsafe_allow_html=True)
         st.markdown(
             "$X_1$ y $X_2$ **no son independientes**: la tabla no factoriza.  \n"
-            "**Interpretación:** si un pedido llegó a tiempo ($X_1=1$), "
-            "la probabilidad de recibir buena calificación ($X_2=2$) cambia respecto a la marginal — "
-            "saber si llegó a tiempo sí informa sobre la calificación que dejará el cliente."
+            "**Interpretación financiera:** si un emisor honró sus obligaciones ($X_1=1$), "
+            "la probabilidad de tener gobierno corporativo sólido ($X_2=2$) cambia respecto a la marginal — "
+            "el historial de pago sí informa sobre la calidad de gestión del emisor."
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -2495,12 +2495,12 @@ with tabs[5]:
 
         st.markdown('<div class="obs-box"><span class="label-obs">Interpretación</span>', unsafe_allow_html=True)
         st.markdown(
-            "Cuando el pedido llega a tiempo ($X_1=1$), el índice de desempeño esperado es $\\approx 2.42$.  \n"
+            "Cuando el emisor no incumple ($X_1=1$), el índice de salud financiera esperado es $\\approx 2.42$.  \n"
             "Para comparar, calculemos $E[Y]$ sin información:  \n"
             "$E[X_1] = 0.60$, $E[X_2] = 0\\cdot0.30+1\\cdot0.30+2\\cdot0.40 = 1.10$.  \n"
             "$E[Y] = E[X_1]+E[X_2] = 0.60+1.10 = 1.70$.  \n\n"
-            "Saber que el pedido llegó a tiempo eleva el índice esperado de $1.70$ a $2.42$ — "
-            "esto confirma la dependencia: $X_1$ **aporta información** sobre $Y$."
+            "Saber que el emisor no incumplió eleva el índice esperado de $1.70$ a $2.42$ — "
+            "esto confirma la dependencia: el historial de pago **aporta información** sobre el índice de salud."
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -2513,25 +2513,26 @@ with tabs[5]:
             "Por tanto, el evento $\\{Y=3\\} = \\{(X_1,X_2)=(1,2)\\}$ está "
             "**generado por el vector** — no puede ser independiente de él.  \n\n"
             "La independencia de vectores cobra sentido cuando los bloques son **conceptualmente separados**: "
-            "por ejemplo, el vector de características de un pedido vs. el vector de características "
-            "de otro pedido distinto e independiente."
+            "por ejemplo, el vector de características de un emisor vs. el vector de características "
+            "de otro emisor de una industria completamente distinta — en ese caso sí podría argumentarse "
+            "independencia entre los dos vectores."
         )
 
         # Visualización
         st.markdown("---")
-        st.markdown("#### Visualización — Distribución de X₂ según el valor de X₁")
+        st.markdown("#### Visualización — Distribución de la calidad de gobierno corporativo según historial de pago")
         p_x2_dado_x1_0 = [0.20/0.40, 0.15/0.40, 0.05/0.40]
         p_x2_dado_x1_1 = [0.10/0.60, 0.15/0.60, 0.35/0.60]
         p_x2_marg      = [0.30, 0.30, 0.40]
 
         fig_ej2 = go.Figure()
         for vals, name, col in [
-            (p_x2_marg,      "Marginal X₂ (sin info)", "#e63946"),
-            (p_x2_dado_x1_0, "X₂ | X₁=0 (retraso)",   "#FF9800"),
-            (p_x2_dado_x1_1, "X₂ | X₁=1 (a tiempo)",  "#4CAF50"),
+            (p_x2_marg,      "Marginal X₂ (sin info)",        "#e63946"),
+            (p_x2_dado_x1_0, "X₂ | X₁=0 (incumplimiento)",   "#FF9800"),
+            (p_x2_dado_x1_1, "X₂ | X₁=1 (sin incumplimiento)","#4CAF50"),
         ]:
             fig_ej2.add_trace(go.Bar(
-                x=["Mala (X₂=0)", "Regular (X₂=1)", "Buena (X₂=2)"],
+                x=["Deficiente (X₂=0)", "Aceptable (X₂=1)", "Sólido (X₂=2)"],
                 y=vals, name=name,
                 marker_color=col, opacity=0.85
             ))
@@ -2547,22 +2548,23 @@ with tabs[5]:
         fig_ej2.update_yaxes(gridcolor='#222', range=[0,0.7])
         st.plotly_chart(fig_ej2, use_container_width=True)
         st.caption(
-            "Rojo: distribución marginal de X₂ sin información sobre X₁.  "
-            "Naranja: distribución de X₂ dado que el pedido llegó con retraso.  "
-            "Verde: distribución de X₂ dado que llegó a tiempo.  "
-            "Si fueran independientes, las tres barras serían idénticas."
+            "Rojo: distribución marginal de la calidad de gobierno corporativo sin información adicional.  "
+            "Naranja: dado que el emisor incurrió en incumplimiento.  "
+            "Verde: dado que el emisor honró sus obligaciones.  "
+            "Si fueran independientes, las tres distribuciones serían idénticas."
         )
 
     # ══════════════════════════════════════════════════════════════════════
     # EJERCICIO 3 — COVARIANZA (CONTINUO)
     # ══════════════════════════════════════════════════════════════════════
     with ej3:
-        st.markdown("### Ejercicio — Covarianza con densidad conjunta continua")
+        st.markdown("### Ejercicio — Covarianza en un modelo de scoring crediticio")
         st.markdown('<div class="ejemplo-box"><span class="label-ej">Enunciado</span>', unsafe_allow_html=True)
         st.markdown(
-            "Un analista modela conjuntamente la tasa de ocupación $X$ de un hotel "
-            "(en proporción, $0 < x < 1$) y su ingreso diario relativo $Y$ "
-            "(en unidades normalizadas, $0 < y < 2$), "
+            "En un modelo de scoring crediticio, se modelan conjuntamente dos variables continuas de un solicitante: "
+            "$X$: índice de capacidad de pago normalizado ($0 < x < 1$, donde valores cercanos a 1 "
+            "indican mayor capacidad) e $Y$: historial de comportamiento crediticio normalizado "
+            "($0 < y < 2$, donde valores altos indican buen historial), "
             "con la siguiente densidad conjunta:"
         )
         st.latex(r"f(x,y) = \begin{cases} c\,x\,y & 0 < x < 1,\; 0 < y < 2 \\ 0 & \text{en otro caso} \end{cases}")
@@ -2571,7 +2573,7 @@ with tabs[5]:
             "**b)** Halle las densidades marginales $f_X(x)$ y $f_Y(y)$.  \n"
             "**c)** ¿Son $X$ e $Y$ independientes? Justifique.  \n"
             "**d)** Calcule $\\text{Cov}(X,Y)$ usando la fórmula operacional e interprete.  \n"
-            "**e)** Calcule $\\text{Var}(3X - Y)$."
+            "**e)** Calcule $\\text{Var}(3X - Y)$, donde $3X-Y$ puede interpretarse como un índice de riesgo ajustado."
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -2660,9 +2662,10 @@ with tabs[5]:
         st.markdown('<div class="prop-box"><span class="label-prop">Resultado</span>', unsafe_allow_html=True)
         st.latex(r"\text{Var}(3X-Y) = \frac{13}{18} \approx 0.722")
         st.markdown(
-            "> Como $X$ e $Y$ son independientes, la varianza de $3X-Y$ es simplemente "
-            "la suma $9\\,\\text{Var}(X)+\\text{Var}(Y)$, sin término cruzado. "
-            "Si hubiera dependencia, habría que añadir $-6\\,\\text{Cov}(X,Y)$."
+            "> **Interpretación:** la varianza del índice de riesgo ajustado $3X-Y$ "
+            "se construye únicamente con las varianzas individuales, sin término cruzado, "
+            "porque la capacidad de pago y el historial son independientes. "
+            "Si hubiera dependencia, el término $-6\\,\\text{Cov}(X,Y)$ modificaría el riesgo total."
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -2681,7 +2684,7 @@ with tabs[5]:
                 name='f_X(x) = 2x'
             ))
             fig_mx.update_layout(
-                title="Marginal de X", xaxis_title="x", yaxis_title="f_X(x)",
+                title="Marginal de X (capacidad de pago)", xaxis_title="x", yaxis_title="f_X(x)",
                 paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
                 font_color='white', height=280, margin=dict(l=0,r=0,t=40,b=0)
             )
@@ -2698,7 +2701,7 @@ with tabs[5]:
                 name='f_Y(y) = y/2'
             ))
             fig_my.update_layout(
-                title="Marginal de Y", xaxis_title="y", yaxis_title="f_Y(y)",
+                title="Marginal de Y (historial crediticio)", xaxis_title="y", yaxis_title="f_Y(y)",
                 paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
                 font_color='white', height=280, margin=dict(l=0,r=0,t=40,b=0)
             )
@@ -2707,20 +2710,23 @@ with tabs[5]:
             st.plotly_chart(fig_my, use_container_width=True)
 
         st.caption(
-            "Ambas densidades marginales son crecientes: valores altos de X e Y son más probables. "
-            "Como la densidad conjunta f(x,y)=xy es exactamente el producto f_X(x)·f_Y(y), "
-            "X e Y son independientes — no hay información mutua entre ambas variables."
+            "Ambas densidades marginales son crecientes: solicitantes con mayor capacidad de pago "
+            "e historial más sólido son más frecuentes en la base. "
+            "Como f(x,y)=xy = f_X(x)·f_Y(y), las variables son independientes — "
+            "en este modelo, la capacidad de pago no predice el historial crediticio."
         )
 
     # ══════════════════════════════════════════════════════════════════════
     # EJERCICIO 4 — CORRELACIÓN
     # ══════════════════════════════════════════════════════════════════════
     with ej4:
-        st.markdown("### Ejercicio — Invarianza de la correlación bajo transformaciones lineales")
+        st.markdown("### Ejercicio — Correlación entre retornos y su invarianza en trading")
         st.markdown('<div class="ejemplo-box"><span class="label-ej">Enunciado</span>', unsafe_allow_html=True)
         st.markdown(
-            "Sean $X$ e $Y$ variables aleatorias con coeficiente de correlación $\\rho_{X,Y}$. "
-            "Para constantes $a, b, c, d$ se definen $Z = a + bX$ y $W = c + dY$."
+            "En una mesa de trading, un analista cuantitativo trabaja con los retornos diarios "
+            "$X$ e $Y$ de dos activos financieros y observa que tienen correlación $\\rho_{X,Y}$. "
+            "Para construir estrategias, reescala los retornos: $Z = a + bX$ y $W = c + dY$, "
+            "donde $b$ y $d$ pueden representar factores de apalancamiento o cambios de unidad."
         )
         st.markdown(
             "**a)** Muestre que $|\\rho_{Z,W}| = |\\rho_{X,Y}|$.  \n"
