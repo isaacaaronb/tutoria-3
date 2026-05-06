@@ -2449,17 +2449,18 @@ with tabs[5]:
             "Verificamos **todas** las celdas:"
         )
         datos_fact = {
-            "$(x_1,x_2)$": ["(0,0)","(0,1)","(0,2)","(1,0)","(1,1)","(1,2)"],
-            "$p_{1,2}(x_1,x_2)$": [0.20,0.15,0.05,0.10,0.15,0.35],
-            "$p_1(x_1)$": [0.40,0.40,0.40,0.60,0.60,0.60],
-            "$p_2(x_2)$": [0.30,0.30,0.40,0.30,0.30,0.40],
-            "$p_1 \\cdot p_2$": [0.12,0.12,0.16,0.18,0.18,0.24],
-            "¿Iguales?": ["❌","❌","❌","❌","✅","❌"]
+            "Par (x1, x2)": ["(0,0)","(0,1)","(0,2)","(1,0)","(1,1)","(1,2)"],
+            "p(x1,x2)": [0.20, 0.15, 0.05, 0.10, 0.15, 0.35],
+            "p1(x1)": [0.40, 0.40, 0.40, 0.60, 0.60, 0.60],
+            "p2(x2)": [0.30, 0.30, 0.40, 0.30, 0.30, 0.40],
+            "p1 × p2": [0.12, 0.12, 0.16, 0.18, 0.18, 0.24],
+            "¿Iguales?": ["❌","❌","❌","❌","❌","❌"]
         }
         st.dataframe(pd.DataFrame(datos_fact), use_container_width=True)
         st.markdown(
             "Basta con encontrar **una** celda donde no se cumpla para concluir dependencia. "
-            "En este caso, **ninguna** celda (salvo $(1,1)$ por coincidencia numérica) cumple la factorización."
+            "En este caso, **ninguna** celda cumple la factorización: "
+            "$p_{1,2}(x_1,x_2) \\neq p_1(x_1)\\cdot p_2(x_2)$ en todos los pares."
         )
         st.markdown('<div class="obs-box"><span class="label-obs">Conclusión</span>', unsafe_allow_html=True)
         st.markdown(
@@ -2569,32 +2570,21 @@ with tabs[5]:
         )
         st.latex(r"f(x,y) = \begin{cases} c\,x\,y & 0 < x < 1,\; 0 < y < 2 \\ 0 & \text{en otro caso} \end{cases}")
         st.markdown(
-            "**a)** Determine la constante $c$ para que $f$ sea densidad.  \n"
-            "**b)** Halle las densidades marginales $f_X(x)$ y $f_Y(y)$.  \n"
-            "**c)** ¿Son $X$ e $Y$ independientes? Justifique.  \n"
-            "**d)** Calcule $\\text{Cov}(X,Y)$ usando la fórmula operacional e interprete.  \n"
-            "**e)** Calcule $\\text{Var}(3X - Y)$, donde $3X-Y$ puede interpretarse como un índice de riesgo ajustado."
+            "Se puede verificar que $c=1$, por lo que la densidad conjunta es "
+            "$f(x,y) = xy$, con $0<x<1$ y $0<y<2$.  \\n\\n"
+            "**a)** Halle las densidades marginales $f_X(x)$ y $f_Y(y)$.  \\n"
+            "**b)** ¿Son $X$ e $Y$ independientes? Justifique.  \\n"
+            "**c)** Calcule $\\text{Cov}(X,Y)$ usando la fórmula operacional e interprete "
+            "en el contexto del scoring.  \\n"
+            "**d)** Calcule $\\text{Var}(3X - Y)$, donde $3X-Y$ puede interpretarse como "
+            "un índice de riesgo ajustado."
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
         st.markdown("---")
         st.markdown("### Resolución")
 
-        st.markdown('<div class="section-title">Parte a) — Constante c</div>', unsafe_allow_html=True)
-        st.markdown(
-            "Para que $f$ sea densidad, debe integrar 1 sobre todo su soporte:"
-        )
-        st.latex(r"\int_0^1\int_0^2 c\,x\,y\;dy\,dx = 1")
-        st.latex(r"c\int_0^1 x\,dx \cdot \int_0^2 y\,dy = c\cdot\frac{1}{2}\cdot 2 = c = 1")
-        st.markdown(
-            "> Nótese que la integral factorizó en $\\int_0^1 x\,dx = 1/2$ "
-            "y $\\int_0^2 y\,dy = 2$, cuyo producto es 1. Por tanto $c=1$."
-        )
-        st.markdown('<div class="prop-box"><span class="label-prop">Resultado</span>', unsafe_allow_html=True)
-        st.latex(r"f(x,y) = xy, \quad 0<x<1,\; 0<y<2")
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.markdown('<div class="section-title">Parte b) — Densidades marginales</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Parte a) — Densidades marginales</div>', unsafe_allow_html=True)
         st.markdown(
             "La marginal de $X$ se obtiene integrando $f(x,y)$ sobre todos los valores de $y$:"
         )
@@ -2605,7 +2595,7 @@ with tabs[5]:
             "> Verificación: $\\int_0^1 2x\,dx = 1$ ✓ y $\\int_0^2 y/2\,dy = 1$ ✓."
         )
 
-        st.markdown('<div class="section-title">Parte c) — ¿Son independientes?</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Parte b) — ¿Son independientes?</div>', unsafe_allow_html=True)
         st.markdown(
             "Comprobamos si $f(x,y) = f_X(x)\\cdot f_Y(y)$:"
         )
@@ -2619,7 +2609,7 @@ with tabs[5]:
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
-        st.markdown('<div class="section-title">Parte d) — Cov(X, Y)</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Parte c) — Cov(X, Y)</div>', unsafe_allow_html=True)
         st.markdown(
             "Usamos la **fórmula operacional**: $\\text{Cov}(X,Y) = E[XY] - E[X]\\cdot E[Y]$.  \n\n"
             "**Calculamos $E[X]$:**"
@@ -2644,7 +2634,7 @@ with tabs[5]:
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
-        st.markdown('<div class="section-title">Parte e) — Var(3X - Y)</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Parte d) — Var(3X - Y)</div>', unsafe_allow_html=True)
         st.markdown("Aplicamos la Propiedad 5 de la covarianza:")
         st.latex(r"\text{Var}(3X-Y) = 9\,\text{Var}(X) + \text{Var}(Y) - 2\cdot 3\cdot 1\cdot\text{Cov}(X,Y)")
         st.markdown(
@@ -2731,10 +2721,11 @@ with tabs[5]:
         st.markdown(
             "**a)** Muestre que $|\\rho_{Z,W}| = |\\rho_{X,Y}|$.  \n"
             "**b)** ¿Bajo qué condición $\\rho_{Z,W} = \\rho_{X,Y}$ (sin valor absoluto)?  \n"
-            "**c)** Aplique el resultado al siguiente caso: la temperatura $T$ en Celsius y la presión arterial "
-            "sistólica $P$ de un paciente tienen correlación $\\rho_{T,P} = 0.65$. "
-            "Un médico convierte $T$ a Fahrenheit: $F = 32 + 1.8T$. "
-            "¿Cuál es la correlación entre $F$ y $P$?"
+            "**c)** Aplique el resultado: los retornos diarios de una acción $X$ y un índice $Y$ "
+            "tienen correlación $\\rho_{X,Y} = 0.65$. "
+            "El trading desk reescala los retornos: $Z = 1.5\\,X$ "
+            "(posición larga con apalancamiento 1.5) y $W = -Y$ "
+            "(posición corta sobre el índice). ¿Cuál es la correlación entre $Z$ y $W$?"
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -2781,12 +2772,13 @@ with tabs[5]:
             "Si $bd < 0$, la correlación cambia de signo: $\\rho_{Z,W} = -\\rho_{X,Y}$."
         )
 
-        st.markdown('<div class="section-title">Parte c) — Aplicación: temperatura y presión arterial</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Parte c) — Aplicación: posición larga y corta en trading</div>', unsafe_allow_html=True)
         st.markdown(
-            "Datos: $\\rho_{T,P} = 0.65$, $F = 32 + 1.8T$, por lo que $b = 1.8 > 0$ y $d = 1$ (P no cambia).  \n"
-            "Como $b = 1.8 > 0$ y $d = 1 > 0$, tenemos $bd = 1.8 > 0$."
+            "Datos: $\\rho_{X,Y} = 0.65$, $Z = 1.5\\,X$ (luego $b=1.5>0$) "
+            "y $W = -Y$ (luego $d=-1<0$).  \\n"
+            "Calculamos el producto: $bd = (1.5)(-1) = -1.5 < 0$."
         )
-        st.latex(r"\rho_{F,P} = \frac{(1.8)(1)}{|(1.8)(1)|}\cdot\rho_{T,P} = (+1)\cdot 0.65 = 0.65")
+        st.latex(r"\rho_{Z,W} = \frac{(1.5)(-1)}{|(1.5)(-1)|}\cdot\rho_{X,Y} = (-1)\cdot 0.65 = -0.65")
 
         st.markdown('<div class="obs-box"><span class="label-obs">Interpretación</span>', unsafe_allow_html=True)
         st.markdown(
